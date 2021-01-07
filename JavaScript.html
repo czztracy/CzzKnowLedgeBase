@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<body></body>
+<script>
+    /**
+        一、如何理解JS中的this
+        1）全局作用域  this指向window
+        2）局部作用域 分为块级作用域和函数作用域
+        1> 谁调用指向谁 2> 使用实例化对象 this指向实例化对象 3> apply call 改变this指向
+
+
+        二、作用域
+        全局作用域和局部作用域  
+        全局作用域：全局定义
+        局部作用域：块级作用域（代码段中）和函数作用域（在函数中声明，只能在函数中使用）
+    */
+   var czz = "1";
+   function czzFn() {
+       console.log(czz);
+   }
+   czzFn(); // 1
+   var czz1 = "1"
+   function czzFn1() {
+       console.log(czz1);
+       czz1 = "aaaa";
+   }
+   czzFn1(); // 1
+   var Czz2 = "2";   
+   function czzFn2() {
+       console.log(Czz2);
+       var Czz2 = "1";
+   }
+   czzFn2();  // undefined 变量提升
+   /**
+    * 作用域链：多个作用域形成了作用域链。 函数嵌套。从当前作用域向上查找，直到最上级作用域时，不管找没找到都停止。
+    * 函数内部变量与外部变量重名时，优先使用内部变量。
+   */
+  czzAge = "18";
+  function czzFn() {
+      console.log(czzAge);
+      var czzAge = "8 years old";
+      var czzSub = "24 years old";
+      console.log(czzAge);
+      function czzFnSub() {
+          var czzSub = "18 years old;"
+          console.log(czzSub);
+          console.log(czzAge);
+      }
+      czzFnSub();
+  }
+  czzFn(); // undefined 、8 years old 、 18 years old 、 8 years old
+
+  /**
+   * 三、闭包：可以读取其他函数内部变量的函数。 函数嵌套函数。
+   * 优点：能够读取其他函数变量 会一直存在内存中 安全
+   * 缺点：滥用会造成内存泄露。
+   * 解决方案：在退出函数之前，将不使用的局部变量和全局变量删除。
+  */
+ function csgFn() {
+     var czzAge = "8 years old";
+     var czzName = "Czz";
+     function csgSubFn() {
+         console.log(czzAge);
+         console.log(czzName);
+     }
+     return csgSubFn();
+ }
+ csgFn();
+
+ /**
+  * 四、面向对象（对象、类、封装、继承）
+  * 1）工厂模式  无法判断对象  2）原型模式 3）构造函数模式
+ */
+
+    // 工厂模式
+    function czzFn(name, age) {
+        var obj = new Object();
+        obj.name = name;
+        obj.age = age;
+        return obj
+    }
+    var P = czzFn('Czz', 18);
+    console.log(P);
+    // 原型模式 不定义在函数上 定义在原型上
+    function CzzCsgFn() {}
+    CzzCsgFn.prototype.name = "czz";
+    CzzCsgFn.prototype.age = 24;
+    CzzCsgFn.prototype.sayAge = function () { console.log(this.age) }
+    var P1 = new CzzCsgFn();
+    P1.sayAge()
+    console.log(P1.name, P1.age, P1);
+
+    // 构造函数
+    function GzFn(name, age) {
+        this.name = name;
+        this.age = age;
+        this.sayName = function() {
+            console.log(this.name);
+        }
+    }
+    var P2 = new GzFn("Czz", 24);
+    P2.sayName()
+    console.log(P2);
+
+    // 构造函数之间关系
+    // 构造函数（GzFn） ---> (new GzFn()) 实例对象
+    // 构造函数（GzFn） --->（GzFn.prototype） 原型对象
+    // 原型对象（GzFn.prototype） ---> (GzFn.prototype.constructor) 构造函数
+    // 实例对象（new GzFn()） ---> (_proto_) 原型对象
+
+    // 原型和构造函数
+    function YXGZFn(name, age) {
+        this.name = name;
+        this.age = age;
+        this.friends = ["Tom", "Jack"];
+    }
+    YXGZFn.prototype = {
+        constructor: YXGZFn,
+        sayName() {
+            console.log(this.name);
+        }
+    }
+    var P3 = new YXGZFn("CZZ", 8);
+    console.log(P3);
+    P3.sayName();
+
+
+    // 自己实现new
+    function myNew(func, ...args) {
+        // 创建一个对象且将其隐式原型指向构造函数
+        var obj = {
+            _proto_: func.prototype
+        }
+        func.apply(obj, args);
+        return obj;
+    }
+    function Person(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    let _person = myNew(Person, "czz", 25);
+    console.log(_person, _person.name, _person.age);
+
+    /**
+     * 五、继承  1）ES5原型链继承 2）ES6 extends继承  class extends super 3）拷贝继承
+    */
+    function A(name) {
+        this.name = name;
+        this.friends = ["Jack", "Tom"];
+    }
+    A.prototype.sayName = function() {
+        console.log(this.name);
+    }
+    let AN = new A("Czz");
+    console.log(AN);
+    function B(name, age) {
+        A.call(this, name);
+        this.age = age;
+    }
+    B.prototype = new A();
+    B.prototype.constructor = B;
+    B.prototype.sayAge = function() {
+        console.log(this.age);
+    }
+    var PB = new B("CZZ", 99);
+    console.log(PB);
+    PB.sayAge();
+    PB.sayName();
+    // ES6 class extends super
+    // 子类 super必须存在 不然不存在this 来处理this指向
+    // constructor中定义的属性、方法是属于自己的，之外的可以共享。
+    // class Animal() { 
+    //     constructor() { this.type = "animal" }
+    //     says(say) { console.log(`${this.type}说${say}`) }
+    // }
+    // class Cats extends Animal() {
+    //    constructor() {
+    //      super()
+    //      this.name = "Czz";
+    //    }   
+    // }
+    // let cat = new Cat();
+    // cat.says("Hello");
+
+    /**
+     * 六、 == 和 ===的区别
+     * === 不允许强制转化的情况下是否相等
+     * == 允许强制转化的情况下是否相等
+     * 强制转化  Number() String() JOSN.stringify() JOSN.parse()等
+    */
+    // === 
+    let a = 1; let b = "1";
+    console.log(a === b); // false
+    console.log(a == b); // true 
+
+    /**
+     * 七、如何理解事件委托？
+     * 给父元素设置事件会影响到子元素。
+     * 事件委托可以理解为事件流（事件模型），当事件发生时，从window往下边元素查找，确定目标事件之后，从子元素往上传递，一直到window。
+     * 事件捕获 事件确认 事件冒泡
+     * 阻止事件冒泡的方法：
+     * 1）event.stopPropagation()
+     * 2）return false 默认行为和冒泡都阻止了
+     * vue中 @click.stop
+    */
+
+   /**
+    * 八、JS中数据类型 （基本数据类型和引用数据类型）
+    * 基本数据类型：String、Number、Boolearn、Symbol、null（空值）、undefined（未定义，找不到）
+    * 引用数据类型：Array、Object、Function
+    * Symbol（）用法：
+    * 1> 确定对象属性名的唯一性 let s1 = Symbol(); let obj = { [s1]: "czz" }
+    * 2> 定义常量。 let TYPE_ACTION = Symbol("foo");
+    * 3> 不能被for...in 和 Object.keys() 枚举。
+   */
+
+    /**
+     * 九、判断数组的方法
+     * 1）Array.isArray(arr) // true   
+     * 2）arr instanceof Array // true 
+     * 3）Object.prototype.toString.call(arr).indexOf("Array") !== -1 // true
+     * 4）arr.constructor === Array // true
+    */
+
+    /**
+     * 十、数组的常用方法有哪些
+     * 1）splice(1, 1, 1) 截取 替换 添加
+     * 2）join() 转为字符串
+     * 3）slice(0，5) 截取 不含最后一位
+     * 4）push() 从后边添加
+     * 5）unshift() 从前边添加
+     * 6）pop() 从后边取出一个元素
+     * 7）shift() 从前边取出一个元素
+     * 8）concat() 合并
+     * ......
+    */
+
+    /**
+     * 十一、字符串常用方法
+     * 1）split() 转为数组
+     * 2）substr(1, 4) 截取字符串长度
+     * 3）substring(2, 5) 提取字符串 不包含5
+     * 4）charAt() 取出哪个位置的字符串
+     * 5）replace(newS, oldS) 字符串替换
+     * 6）indexOf("a") 获取某个字符串下标
+     * 7）startsWith("http") 字符串开头是否什么
+     * 8）endsWith("com") 字符串结尾是否是什么
+     * ......
+    */
+
+    /**
+     * 十二、window.onload 作用
+     * 等文档和资源都加载完成后执行的事件，确保js获取元素已经加载完成。
+    */
+
+    /**
+     * 十三、定时器分类？区别和用法？
+     * 分类：setInterval计时器、setTimeout延时器
+     * 用法：setInterval(function() {}, 1000); 1s执行一次 clearInterval();
+     *       setTimeout(function() {}, 1000); 1s后执行 clearTimeout();
+    */
+
+    /**
+     * 十四、DOM怎么创建 添加 删除 替换
+     * 1）添加 父.appendChild()  父.inserBefore(new, refChild)
+     * 2）删除 node.remove()
+     * 3）创建document.createElement("标签名") document.createTextNode("文本内容")
+     * 4）替换 父.replaceChild(new, refChild)
+    */
+
+    /**
+     * 十五、offsetWidth, clientWidth, scrollTop
+     * 1）offsetWith：内容宽 + padding + border
+     * 2）clientWidth：内容宽 + padding
+     * 3）scrollTop：页面滚动高度
+    */
+
+    /**
+     * 十六、call()、apply() 区别 作用
+     * 作用：改变this指向
+     * 区别：apply(this, [a, b, c, ...]) 第二个参数 跟数组  call(this, a, b, c, ...) 第一个参数this， 后边都是同源参数 
+    */
+
+    /**
+     * 十七、get post 区别
+     * 1）get请求数据量小，参数拼接在url后边，不安全。
+     * 2）post请求数据量相对大，参数作为http实体发送给WEB服务，安全。
+    */
+
+    /**
+     * 十八、常见的HTTP状态码
+     * 1）200 请求成功 203 非授权信息
+     * 2）304 未修改 305 使用代理
+     * 3）404 未找到 400 错误请求 403 服务器拒绝请求
+     * 4）500 服务器错误 503 服务器不可用 505HTTP不支持
+    */
+
+    /**
+     * 十九、哪些操作会造成内存泄漏
+     * 1）闭包滥用。
+     * 2）存在全局未定义的变量。
+     * 3）未清除的定时器。
+     * ......
+    */
+
+    /**
+     * 二十、跨域
+     * 1）JSOP动态创建script标签 通过标签的src处理跨域问题  只能解决get
+     * 2）vue中前端在vue.config.js中设置代理。
+     * 3）nigx代理。后台解决。
+    */
+
+    /**
+     * 二十一、深拷贝 浅拷贝
+     * 深拷贝：复制数据时，复制了基本数据类型和引用数据类型都做了复制并生成了新对象。
+     * 浅拷贝：复制数据时，只复制了基本数据类型，引用数据类型只是做了应用，没有生成新的对象。
+     * JSON.stringify() JSON.parse()等
+    */
+    // 递归解决深拷贝
+    function deepCopy(newO, oldO) {
+        for(var i in oldO) {
+            var item = oldO[i];
+            if (item instanceof Object) {
+                newO[i] = {};
+                deepCopy(newO[i], item)
+            } else if (item instanceof Array) {
+                newO[i] = [];
+                deepCopy(newO[i], item)
+            } else {
+                newO[i] = item;
+            }
+        }
+    }
+
+    /**
+     * 二十二、异步宏任务和微任务
+     * 先进行微任务，在进行宏任务
+     * 微任务：Promise
+     * 宏任务：setTimeout、setInterval
+    */
+    setTimeout(function () {
+        console.log("000");
+    }, 0);
+    new Promise((resolve, reject) => {
+        console.log("222");
+        resolve();
+    }).then(() => {
+        console.log("111");
+    })
+    console.log("333");
+    // 222 333 111 000
+
+    /**
+     * 二十三、some find every map filter forEach  let arr = [1, 2, 3, 4, 5, 6];
+     * some() 若满足条件 返回true 跳出循环 arr.some(item => item > 1)
+     * find() 若满足条件 返回对象 跳出循环 arr.find(item => item > 1)
+     * every() 若一个不满足 返回false 跳出循环 若都满足 返回true arr.every(item => item > 1)
+     * map() 返回新数组 不能跳出循环 若不满足数组中为false arr.map(item => item > 1) 
+     * filter 返回新数组 不能跳出循环 若不满足数组不返回 arr.filter(item => item > 1)
+     * forEach 返回undefined 不能跳出循环 arr.forEach(item => item > 1)
+    */
+
+   /**
+    * 二十四、cookies sessionStorage localStorage
+    * 共同点：都是浏览器缓存
+    * cookies：存储相对较小（4K左右）。 可以自己设置过期时间，到期自动清除。 浏览器和服务器来回传递。
+    * sessionStorage：存储相对较大（5M左右）。浏览器关闭数据清空。
+    * localStorage：存储相对较大（5M左右）。除非手动删除，否则一直存在。
+   */
+
+   /**
+    * 二十五、Math方法
+    * 1）Math.pow(2, 10) 指数取幂 1024
+    * 2）Math.radom() 0~1随机数
+    * 3）Math.ceil() 向上取整  Math.floor() 向下取整
+    * 4）Math.max(1, 3, 2) 最大值 Math.min() 最下值
+    * 5）Math.round(10.46) 10 四舍五入
+    * 6）Math.sqrt(100) 10 开平方
+    * ......
+   */
+
+    /**
+     * 二十六、单点登录
+     * 1）用户A 访问系统A，系统A发现未登录，把地址作为参数（或其他）去SSO认证中心验证。
+     * 2）SSO认证中心返回未登录，跳转到登录页登录。SSO认证中心拿着用户名密码进行授权登录，此时SSO认证中心已授权登录，带着授权码进入系统A。
+     * 3）用户A 访问系统B 系统B发现未登录 把地址作为参数（或其他）去SSO认证中心验证。
+     * 4）发现已登录，跳转到系统B。 系统B拿着授权码去SSO认证中心校验是否有效。
+     * 5）有效进入系统B，无效重新登录。
+    */
+
+    /**
+     * 二十七、Ajax原理
+     * 原理：在用户和服务器之间加了个中间层，通过XMLHttpRequest向服务器发送请求，服务器返回数据之后，通过Javascript更新DOM节点。
+    */
+
+    /**
+     * 二十八、Commonjs和AMD的理解
+     * Commonjs是服务器模块规范，同步操作，也就是说等加载完之后才能加载后边的。require（）。
+     * AMD返回一个对象模块，非同步的，允许指定回调函数。modules.exports 或 exports的属性赋值暴露模块对象。
+    */
+</script>
