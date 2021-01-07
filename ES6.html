@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<body>
+</body>
+<script>
+    /** 
+        一、let const （var） 区别
+        let、const为块级作用域。 
+        不能重复定义。
+        const定义的变量不能修改。
+        var 存在变量提升。
+
+        二、箭头函数
+        var func = a => a + 5;
+        写法简单 但是不能用于构造函数。
+
+        三、解构
+        let [a, b, c] = [1, 2, 3]; let [foo, ...tail] = [1, 2, 3, 4]; foo - 1  tail - [2, ,3, 4]
+
+        四、判断是否是数组isArray() Object.prototype.toString.call(arr).indexOf("Array") !== -1  arr instanceof Array
+    */
+    let [a, b, c] = [1, 2, 3];
+    console.log(a, b, c);
+    let [d, ...e] = [1, 2, 3];
+    console.log(d, e);
+    let arr = [1, 3];
+    console.log(Array.isArray(arr), arr instanceof Array, Object.prototype.toString.call(arr).indexOf("Array") !== -1);
+    /** 
+        五、ES6数组新增方法
+        Array.from() 将类似数组对象转为真正数组  将字符串转为数组
+        Array.of() 将一组数值转为数组
+        find() 找到符合条件的元素，返回该元素，调出循环。
+        fill() 数组填充 改变原来数组 替换
+        copyWithin() 位置复制
+        includes() 数组是否包含
+    */
+    let obj = { "0": 1, "1": 2, length: 2 };
+    console.log("数组对象转为数组：", Array.from(obj), "字符串转为数组：", Array.from("Hello"));
+    console.log("将一组数值转为数组：", Array.of(1, 2, 3, 4, 5));
+    let findArr  = [{ name: "Czz", id: 1 }, { name: "Jom", id:2 }]
+    let item = findArr.find(item => item.id === 1);
+    console.log("find查找出来的数据：", item);
+    let FillArr = [{ job: "IT", age: 18 }, { job: "销售", age: 20 }];
+    let newArr = ["a", "b", "c"];
+    // console.log(newArr.fill(7, 1, 2)); // ["a", 7, "c"]
+    // console.log(newArr.copyWithin(0, 1, 2)); // ["b", "b", "c"]
+    // console.log(FillArr.fill({ job: "运动员", age: 12 }, 1, 2), FillArr); // 销售替换为运动员
+    console.log(newArr.includes('a')); // true
+
+    /** 
+        map 返回 数组
+        forEach 返回 undefined
+        filter 返回数组 过滤后
+        some 只要满足 就跳出循环 返回 true
+        every 满足才返回true 一个不满足就返回 false 跳出循环
+    */
+    let testArr = [{ name: "czz", age: 18 }, { name: "Jom", age: 17 }, { name: "Jack", age: 16 }]
+    let MapArr1 = testArr.map(item => item.age > 16); // [true, true, false]
+    let MapArr2 = testArr.map(item => { if (item.age > 16) { return item } });
+    console.log("map结果：", MapArr1, MapArr2); // [{ name: "czz", age: 18 }, { name: "Jom", age: 17 }, undefined]
+    let ForEachArr1 = testArr.forEach(item => item.age > 16);
+    let ForEachArr2 = testArr.forEach(item => { if (item.age > 16) { return item } });
+    console.log("forEach结果：", ForEachArr1, ForEachArr2); // undefined undefined
+    let SomeArr1 = testArr.some(item => item.age > 16 );
+    let SomeArr2 = testArr.some(item => { if (item.age > 16) { return item } });
+    console.log("some结果：", SomeArr1, SomeArr2); // true true
+    let EveryArr1 = testArr.every(item => item.age > 16);
+    let EveryArr2 = testArr.every(item => item.age > 15);
+    console.log("some结果：", EveryArr1, EveryArr2); // false true
+
+    /**
+        函数默认值 收集参数
+    */
+    function show(a = 66, b = 99) {
+        console.log(a, b); // 66 99 
+    }
+    show();
+    function func(a, b, ...args) {
+        console.log(args); // [3, 4, 5, 6]
+    }
+    func(1, 2, 3, 4, 5, 6); 
+
+    /**
+        字符串 startsWith endsWith
+    */
+    let str = "Hello world, wecome to the Runoob";
+    console.log(str.includes("world"), str.includes("hello"), str.charAt(2)); // true false
+
+    /**
+        对象Object.assign() 浅拷贝 三个参数：目标对象 后边都是同源对象  属性相同后边替换前边
+        1）添加属性Object.assign(obj, {name: "czz"})
+        2）对象添加方法 Object.assign(obj, { a() {}, b() {} })
+        3）克隆对象 Object.assign({}, obj)
+        4）合并对象 Object.assign(obj1, obj2)
+        
+        对象遍历方法
+        1）for...in
+        2）Object.keys()
+        3）Object.getOwnPropertyNames()
+        4）Object.getOwnPropertySymbols()
+
+        六、Symbol() 
+        1）确定对象唯一属性名
+        2）定义常量
+        3）不能被for...in 和 Object.keys()枚举
+    */
+    let syObject = {};
+    var s1 = Symbol("foo");
+    syObject[s1] = "czz";
+    console.log(syObject);
+    let TYPE_AUDIO = Symbol("aaa");
+    console.log(TYPE_AUDIO);
+
+    /**
+        七、数组去重 new Set() let arr = [1, 1, 1, 2, 2, 2]; [...new Set(arr)] // [1, 2]
+    */
+
+    /**
+        八、Promise
+        Promise三种状态： pending(进行中) fulfilled（已完成） rejected（已失败）
+        特点：1）不收外界影响 2）一旦改变就不再变，任何时候都是这个结果
+        缺点：无法取消  不设置回调内部报错 pending时 不知道是刚开始 还是即将完成
+        Promise.finally() 不管对象最后状态如何 都会执行的操作。（与then catch 一样）
+        Promise.all([]) 对多个Promise实例包装成一个 成功返回数组， 失败返回最先rejected的状态值。 
+        应用：一个页面多个模块数据都返回才正常显示，loading处理
+        Promise.race([]) 数组中那个任务快就返回哪个，不管成功失败。 应用：一般与定时器绑定。
+        Promise.allSettled(promise) 将一组Promise实例包装成一个 等这些都返回结果（无论是fulfilled还是rejected）
+        let promise = [fetch('/api1'), fetch('/api2'), fetch('/api3')]
+
+
+        九、class
+        constructor() 定义的方法和属性都是实例自己的 默认返回实例对象 即this。
+        class Animal() {
+            constructor() { this.name = "czz" }
+            says(say) { console.log(say); }
+        }
+        let animal = new Animal();
+        animal.says("你好");
+
+        十、import require区别
+        1）require是AMD规范引入方式。 import是ES6语法。
+        2）import必须在文件开头， require可以在运行代码中。
+        3）require可以说是赋值过程，结果是对象、数字、字符串、函数等，import可以说是解构过程，node中babel支持ES6转ES5，import转为require。
+    */
+</script>
