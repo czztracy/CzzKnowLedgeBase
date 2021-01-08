@@ -1,5 +1,40 @@
 <!DOCTYPE html>
-<body></body>
+<body>
+    <h2 class="title">
+        客人总是在询问
+        <span>这么好吃的秘诀是什么</span>
+    </h2>
+    <style>
+        .title {
+            font-size: 20px;
+            color: #3D1101;
+            line-height: 32px;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        .title span {
+            display: block;
+            position: relative;
+        }
+        .title span::before, .title span::after {
+            /* 定位背景横线位置 */
+            position: absolute;
+            /* CSS伪类用法 */
+            content: " "; 
+            width: 122px;
+            height: 1px;
+            align-items: center;
+            background: #979797;
+        }
+        .title span::before {
+            left: 25%;
+        }
+        .title span::after {
+            right: 25%;
+        }
+    </style>
+</body>
 <script>
     /**
         一、如何理解JS中的this

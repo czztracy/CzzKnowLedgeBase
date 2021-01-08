@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>HTML</title>
+        <style>
+            .title {
+                font-size: 20px;
+                color: #3D1101;
+                margin-top: 50px;
+                margin-bottom: 30px;
+                line-height: 32px;
+                text-align: center;
+            }
+            .title span {
+                display: block;
+                position: relative;
+            }
+            .title span::before, .title span::after {
+                position: absolute;
+                content: " ";
+                width: 122px;
+                height: 1px;
+                background: #979797;
+            }
+            .title span::before {
+                left: 25%;
+            }
+            .title span::after {
+                right: 25%;
+            }
+        </style>
+        
+        <script>
+            /**
+             * 一、盒模型
+             * 1）W3C标准盒模型：margin border padding content
+             * 2）IE盒模型（怪异）：margin content（padding、border） 
+             * 两种盒模型切换：box-sizing：border-box（IE、怪异）、content-box（标准）、inherit
+             *
+             *
+             * 二、页面是如何渲染的
+             * 1）首先将HTML解析生成DOM树
+             * 2）然后将解析的CSS附在DOM上
+             * 3）然后计算node节点在浏览器上的位置
+             * 4）最后在浏览器上绘制形成布局。
+             *
+             *
+             * 三、link、@import区别？
+             * 1）link是标签引入，@import是CSS样式引入。
+             * 2）link是页面跟文件同时加载，@import是等页面加载完成之后再加载文件。
+             * 3）link可以通过Javascript操作DOM完成。
+             * 4）link权重高于@import。
+             * 
+             *
+             * 四、HTML5新特性
+             * 1）新增语义化标签。（header、footer、nav、main等）
+             * 2）新增音频标签。（audio、video）
+             * 3）缓存机制sessionStorage、localStorage。
+             * 4）svg、canvas图形。
+             * 5）新增表单功能。（<input type="email" /> date、number、url、range等） 
+             * 
+             * 
+             * 五、title和alt区别？
+             * 1）title 鼠标滑到元素上显示。
+             * 2）alt 图片无法加载时显示。搜索引擎重点分析。
+             *
+             *
+             * 六、iframe有哪些缺点？
+             * 1）会影响页面Onload事件。
+             * 2）搜索引擎检测无法解读iframe，不利于SEO。
+             * 3）最好是动态添加iframe的src属性，不然会影响页面加载。
+             *
+             *
+             * 七、<DOCTYPE!> 作用？ 严格模式与混杂模式区分？意义？
+             * 1）DOCTYPE在文件顶部声明，声明文档是什么类型。
+             * 2）严格模式：排版和JS运作按浏览器支持的最高标准。
+             * 3）混杂模式：兼容性低，主要是兼容老版浏览器。DOCTYPE不存在和格式不正确不会报错。
+             *
+             *
+             * 八、怎么处理移动端1px渲染成2px问题？
+             * 1）局部处理 1> meta name="viewport"中的initial-scale设置为1。 2> Css3中transform：scale(0.5) 缩小一倍。
+             * 2）全局 1> meta name="viewport" 中的initial-scale设置为0.5。 2> 按照设计稿走。
+             *
+             *
+             * 九、SEO优化？
+             * 1）减少HTTP请求，合并文件、雪碧图。
+             * 2）减少DNS查询，使用缓存。
+             * 3）减少DOM元素数量。
+             * 4）减小cookie大小。
+             * 5）避免重定向。
+             * 6）外部引入CSS、JS。
+             * 7）少用iframe。
+             * 8）图片添加alt属性。
+             * 9）使用W3C标准编辑HTML。
+            */
+        </script>
+    </head>
+    <body>
+        <!-- 两边横线中间文字 -->
+        <div class="title">
+            客人总是在询问
+            <span>这么好吃的秘诀是什么</span>
+        </div>
+    </body>
+</html>
