@@ -16,7 +16,7 @@
         三、解构
         let [a, b, c] = [1, 2, 3]; let [foo, ...tail] = [1, 2, 3, 4]; foo - 1  tail - [2, ,3, 4]
 
-        四、判断是否是数组isArray() Object.prototype.toString.call(arr).indexOf("Array") !== -1  arr instanceof Array
+        四、判断是否是数组isArray()  1）Object.prototype.toString.call(arr).indexOf("Array") !== -1 2） arr instanceof Array 3）Array.isArray(arr) // true 4）arr.constructor === Array // true 
     */
     let [a, b, c] = [1, 2, 3];
     console.log(a, b, c);
