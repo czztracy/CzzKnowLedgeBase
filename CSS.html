@@ -73,6 +73,95 @@
             * column-rule       div { column-rule: 3px outset #ff0000; } 列之间的宽度(column-rule-width)、样式(column-rule-style)、颜色(column-rule-color)
             */
 
+            /**
+            * 十、用户界面
+            * resize none（默认值）、both（用户调整元素的高度和宽度）、horizontal（宽度）、vertical（高度） 元素尺寸 div { resize: both; overflow: auto; } div元素可由用户调整大小。
+            * box-sizing 盒尺寸 允许以确切的方式适应某个区域内容
+            * outline-offset 轮廓 对轮廓进行偏移，超出边框位置绘制轮廓。
+            * div { border: 2px solid black; outline: 2px solid red; outline-offset: 15px; }
+            */
+
+            /**
+            * 十一、border-style 补充
+            * border-style: solid(实线)/double(双线)/dotted(点线)/dashed(虚线)
+            */
+
+            /**
+            * 十二、position 定位
+            * relative 相对定位 相对自身进行偏移
+            * absolute 绝对定位 若父元素存在relative absolute fixed 相对父元素  若没有相对body偏移
+            * fixed 固定定位 相对于浏览器
+            * static 默认值 无定位
+            * inherit 继承父元素定位
+            */
+
+            /**
+            * 十三、text-decoration
+            * none 默认
+            * underline 下划线
+            * overline 上划线
+            * line-through 中间线（穿过文本）
+            * blink 闪烁文本
+            * inherit 继承父元素
+            */
+
+            /**
+            * 十四、居中方式
+            * 水平居中
+            * 1）文本/行内元素/行内块 text-alige: center;
+            * 2）块元素  margin: 0 auto;
+            * 3）弹性盒 display: flex; justify-content: center;
+            * 4）transform + absolute --->  left: 50%; transform: translateX(-50%); 不知道宽度也可以使用
+            * 5）知道宽度：宽高内容撑开。 position: absolute; left: 0; right: 0; margin: 0 auto;
+            *
+            * 垂直居中
+            * 1）文本/行内块/行内元素 line-height
+            * 2）display: table-cell; vertical-align: middle;
+            * 3）position: absolute; top: 50%; transform: translateY(-50%);
+            * 4）position: absolute; top: 0; bottom: 0; margin: auto 0;
+            * 5）display: flex; align-item: center; 
+            */
+
+            /**
+            * 水平垂直居中
+            * 1）display: flex; justify-content: center; align-item: center;
+            * 2）position: absolute; left: 0; top: 0; right: 0; bottom: 0; margin: auto;
+            * 3）text-align: center; line-height
+            */
+
+            /**
+            * 十五、清除浮动方式  父元素高度没撑开或浮动元素后跟着非浮动元素
+            * 1）父元素设置height
+            * 2）父元素设置overflow: hidden;
+            * 3）浮动元素下边添加空标签 空标签设置 clear: both;
+            * 4）伪元素清除 ::after { content: "."; display: block; clear: both; height: 0; visiblity: hidden; }
+            */
+
+            /**
+            * 十六、BFC？
+            * 1）float不是none
+            * 2）position不是static relative
+            * 3）display为inline-block、table-cell、flex
+            * 4）overflow不为 visible（默认值） 即 scroll、auto、hidden
+            */
+
+            /**
+            * 十七、移动端适配方案有哪些？
+            * 1）rem 基于fontSize
+            * 2）vh/vm （浏览器可视区域） 
+            * 3）flex （弹性布局）
+            * 4）viewport （scale = 1/dpr） <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            */
+
+            /**
+            * 十八、flex布局
+            * 1）flex-direction: row / column / row-reverse（起点在右边） / column-reverse（起点在左边）
+            * 2）justify-content: center / space-between / space-around / flex-start(左对齐) / flex-end(右对齐) / space-evenly(两端存在间隙 均分)
+            * 3）align-item: center / flex-start / flex-end / baseline / stretch（默认）
+            * 4）flex-wrap：nowrap（不换行） / wrap(换行) / wrap-reverse（换行 倒叙）
+            * 5）flex-flow: <flew-direction> | <flew-wrap>
+            * 6）flex-shrink：子元素宽度不够用时自动调整比例 1 缩小一倍 0 都不缩小
+            */
 
             /* 文本中间线 */
             .title {
@@ -112,6 +201,31 @@
                 background: pink;
                 animation: myfirst 6s;
             }
+            .outline {
+                width: 200px;
+                height: 100px;
+                border: 2px solid black;
+                outline: 2px solid red;
+                outline-offset: 15px;
+                margin: auto 0;
+                position: relative;
+            }
+            .outline .chunck {
+                width: 50px;
+                height: 50px;
+                background: red;
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+            .text {
+                text-decoration: line-through;
+                display: inline-block;
+                margin-top: 60px;
+            }
         </style>
         <script></script>
     </head>
@@ -121,5 +235,9 @@
             <span>这么好吃的秘诀是什么？</span>
         </div>
         <div class="Animation"></div>
+        <div class="outline">
+            <div class="chunck"></div>
+        </div>
+        <span class="text">111111</span>
     </body>
 </html>
