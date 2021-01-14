@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>React</title>
+        <style></style>
+        <script>
+            /**
+            * 一、React原理：通过this.setState()处理数据来驱动视图，函数式编程。
+            */
+
+            /**
+            * 二、生命周期
+            * 1）初始化 constructor() 此时DOM还没有生成 可以进行异步事件处理
+            * 2）挂载 componentWillMount 挂载前 render 渲染 componentDidMount 挂载后
+            * 3）更新 
+                1> componentWillReceiveProps() props独有的 组件收到新的属性时调用，首次渲染不触发。
+                2> shouldComponentUpdate(nextProps): 返回false不更新，默认为true。 询问组件是否可以更新
+                3> componentWillUpdate() 数据更新前
+                4> componentDidUpdate() 数据更新后 
+            * 4）卸载 componentWillUnmount() 一般清除一些事件的监听、计时器等。
+            */
+
+            /**
+            * 三、无状态组件
+            * 1> 只有一个函数 2> 无生命周期 3> 无state 4> 无扩展方法 5> 输入props 输出JSX
+            */
+
+            /**
+            * 四、context上下文？
+            * 使用场景：组件层级过多，用props较为繁琐，Redux又小题大做。
+            export default { Provider, Consumer } = React.createContext("默认名称");
+            // 最上级组件
+            constructor(props) {
+                super(props)
+                this.state = { theme: "light" }
+            }
+            render() {
+                return (
+                    <Provider vale={this.state.theme}>
+                        ......
+                    </Provider>
+                )
+            }
+            // 子组件中调用
+            import { Consumer } from "./index.js";
+            render() {
+                return (
+                    <Consumer>
+                        { theme => <div>子组件。获取父组件的值：{theme}</div> }
+                    </Consumer>
+                )
+            }
+            */
+
+            /**
+            * 五、Redux？
+            * 三大原则： 1> 导向数据流。 2> state只读，通过触发redux修改。 3> 使用函数修改。
+            * 1）state 数据管理层
+            * 2）reducer 数据处理层
+            * 3）action 触发执行层 dispatch store.dispatch(action.add(1));
+            * 4）在constructor中store.subscribe(() => { obj: store.getState() })来监听。 RN中Provider绑定store数据，通过connect链接监听
+            * 5）通过combinReducers来模块化管理多个reducer数据处理  通过createStore()来管理reducer处理后的数据
+            */
+
+            /**
+            * 六、React如何通讯？
+            * 1）父到子：props  父：<Child {...this.state} /> 子：this.props.state
+            * 2）子到父：绑定函数 父：<Child func={this.GetInfo} /> GetInfo = (data) => {}  子：this.props.func(this.state)
+            * 3）context通信
+            * 4）Redux通信
+            */
+
+            /**
+            * 七、组件公共逻辑抽离
+            * 1）高阶组件（HOC）
+            * 2）Render Props  Props可以传到函数组件中。
+            * 
+            * Hook？（实现了状态以及变更逻辑的抽离）
+            * 1）useEffect可以让相同逻辑在同一个地方处理。
+            * 2）React组件的逻辑抽离。
+            * 3）可以将组件的相同逻辑放在自定义的Hook中
+            * 使用规则：
+            * 1> 只能在 函数最外层 调用Hook，不能被循环、判断、子函数调用，确保渲染顺序。
+            * 2> 只能在函数组件中。
+            */
+
+            /**
+            * 八、路由跳转
+            * 1） Link标签跳转 to
+            * 2）this.props.history.push()
+            * 获取 this.props.location.query  this.props.match.params
+            * RN中
+            * 1）this.props.navigation.navigate("名称", {参数})
+            * 2）this.props.navigation.push();
+            * 获取：this.props.navigation.state.params
+            */
+
+            /**
+            * 九、事件合成机制
+            * 通过事件冒泡到document上,通过syntheticEvent合成事件。
+            * 1）挂载到document（html）上而不是DOM（node）。
+            * 2）不是原生事件event，是syntheticEvent合成事件。
+            */
+
+            /**
+            * 十、react事件特点
+            * 1）事件冒泡到document上的合成事件，不是原生事件。
+            * 2）挂载到document上而不是DOM上。
+            */
+        </script>
+    </head>
+    <body></body>
+</html>
