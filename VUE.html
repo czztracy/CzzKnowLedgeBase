@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>VUE</title>
+        <style></style>
+        <script>
+            /**
+            * 一、MVVM是什么？
+            * M - model数据层，进行一系列数据操作。 V - view视图层，将数据转化为可视化界面展示出来。 VM - ViewModel 数据驱动视图进行更新。
+            */
+
+            /**
+            * 二、Vue实现双向绑定的原理？
+            * 利用Object.defineProperty()中的set()、get()方法对数据进行设置获取，实现了双向绑定。
+            */
+
+            /**
+            * 三、Vue生命周期？
+            * 1）创建前 beforeCreate  创建后 created（初始化事件以及异步请求适合在这个调用）  这个阶段DOM、data、methods还没生成。
+            * 2）挂载前 beforeMount   挂载后 mounted 此时DOM完成挂载，data、methods已经生成。
+            * 3）更新前 beforeUpdate  更新后 updated data数据更新时触发
+            * 4）销毁前 beforeDestroy 销毁后 destroyed  已经解除了method事件、data数据绑定，但是DOM依然存在。
+            * 两个缓存钩子：keep-alive  activated() deactivated() 离开缓存页面时
+            */
+
+            /**
+            * 四、Vue常用指令和用法？
+            * 1）v-model
+            * 2）v-if v-show  v-if不保留DOM，v-show保留DOM
+            * 3）v-for
+            * ......
+            */
+
+            /**
+            * 五、Vue-loader? 作用?
+            * .vue文件的一个加载器，将template模板、style、js转为js模块。
+            * 作用：js可以使用ES6，css可以使用scss、less
+            */
+
+            /**
+            * 六、Vue组件之间的通信？
+            * 1）父与子 props   子与父 $emit  
+            * 父：<main :obj="data" /> 子：props: { obj: { type: Object, required: true } }
+            * 父：<main @func="getChild" /> 子：this.$emit("func", data)
+            * 2）ref传值 this.$refs.child
+            * 3）全局注册bus总线  
+            * 文件bus.js   import Vue from "vue"; export default new Vue;  引入 bus.$emit 发送  bus.$one 接收
+            * 4）Vuex 通信
+            * 5）provide inject 父到子
+            * 父：export default { name: "AAa", provide: { for: "czz" } }
+            * 子：export default { name: "BBb", inject: ["for"] }  this.for
+            */
+
+            /**
+            * 七、Vuex？怎么用？场景？
+            * 1） 状态管理器。
+            * 2) 1> state：数据存储地。
+            *    2> getter：跟vue计算属性差不多，对state二次封装。
+            *    3> mutations: 改变state数据的唯一方式，不能处理异步事件。
+            *    4> actions: 触发mutations来改变状态，可以包含异步事件。
+            *    5> modules：将Vuex模块化
+            *    6> 通过dispatch触发action commit提交mutation
+            */
+
+            /**
+            * 八、Vue如何处理动态路由？
+            * 1）路由中的component是给不了后台的，后台按照前端提供的component路径返回，循环加载。component：() => import(`@/views/modules/&{view}`)
+            * 2）生成路由表，通过Router.addRoutes()动态添加
+            */
+
+            /**
+            * 九、Vue路由之间的跳转？
+            * 1）this.$router.push({ path: "url", query: {} }); 获取：this.$router.query/params  params刷新页面参数会消失
+            * 2）this.$router.resolve({})  打开新的页面
+            * 3）this.$router.replace()  跳转后历史不存在 history 不能go(-1)
+            *
+            * query params区别？ 1> params需要设置在url后边，query以对象形式传递过去。 2> query传参 刷新页面会消失。
+            */
+
+            /**
+            * 十、Vue-router 有哪些导航钩子？
+            * 1）全局导航钩子 to：将要进入的路由 from：正要离开的路由 next：该方法来resolve钩子（必须调用）
+            * router.beforeEach((to, from, next) => { next() })  // 跳转前
+            * router.afterEach((to, from, next) => { next() }) // 离开时
+            * router.beforeResolve((to, from, next) => { resolve(); next(); }) // 更新时
+            * 
+            * 2）组件内钩子
+            * beforeRouteEnter((to, from, next) => { next(vm => vm // this); }) // 钩子执行前组件实例未创建
+            * beforeResolve((to, from, next) => { resolve(); next(); }) // 更新时
+            * beforeRouteLeave((to, from, next) => next()) // 离开时
+            *
+            * 3）独享守卫
+            * beforeEnter {
+                name: "test",
+                path: "/test",
+                component: () => import(`@/views/test.vue`),
+                beforeEnter(to, from, next) {
+                    if (to.path === "/test") {
+                        alert("请登录")；
+                        next(false); // 禁止跳转
+                    } else {
+                        next();
+                    }
+                } 
+              }
+              !import '../css.css'; scoped只对本template起作用 /deep/ 修改elementui
+            */
+
+            /**
+            * 十一、动态绑定
+            * <img :src="require('../xxx.png')" />
+            * <div :style="{ 'background': `url(${require('xxx.png')})` }"></div>
+            */
+
+            /**
+            * 十二、Vue打包文件过大
+            * 1）懒加载 component: () => important(`@/views/xxx`)
+            * 2）不生成.map文件 vue.config.js中 modules.export = { productionSourceMap = false; }
+            * 3）图片压缩
+            */
+
+            /**
+            * 十三、虚拟DOM
+            * JS来操作Node节点来模拟DOM。
+            * 优点：Js执行速度相对快，可以计算出最小变更来操作DOM。（循环key）
+            */
+
+            /**
+            * 十四、keep-alive
+            * keep-alive是Vue内置的一个组件，可以让组件保留状态，避免重新渲染。
+            * 1）一般结合路由来使用，用于缓存组件。
+            * 2）提供include和exclude属性，include表示只有名称匹配才会被缓存，exclude表示匹配的组件不缓存，exclude优先级高于include。
+            * 3）activated和deactivated两个钩子。 activated：组件被激活时，deactivated：组件移除时。
+            */
+
+            /**
+            * 十五、组件中data为什么是个函数？
+            * 组件可能会被复用，函数能使他们的作用域分开，避免组件之间相互影响。
+            * new Vue 中data是对象, Vue项目中new Vue不会被复用，唯一性。
+            */
+        </script>
+    </head>
+    <body></body>
+</html>
