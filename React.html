@@ -108,6 +108,16 @@
             * 1）事件冒泡到document上的合成事件，不是原生事件。
             * 2）挂载到document上而不是DOM上。
             */
+
+            /**
+            * 十一、性能优化
+            * 1）页面中使用了setTimeout、addEventListener等，要在componentWillUmount清除。
+            * 2）使用异步组件。
+            * 3）渲染列表添加key
+            * 4）减少 bind this使用。
+            * 5）合理使用shouldComponentUpdate.PureComponent。
+            * 6）图片懒加载 雪碧图。
+            */
         </script>
     </head>
     <body></body>
